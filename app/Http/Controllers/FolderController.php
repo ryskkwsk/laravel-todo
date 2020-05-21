@@ -24,13 +24,13 @@ class FolderController extends Controller
         Auth::user()->folders()->save($folder);
 
         return redirect()->route('tasks.index', [
-            'id' => $folder->id,
+            'folder' => $folder->id,
         ]);
     }
 
-    public function delete(int $id)
+    public function delete(Folder $folder)
     {
-        $folder = Folder::find($id);
+        $folder = Folder::find($folder->id);
  
         $folder_task = $folder->tasks()->get();
         if(!empty($folder_task)){
@@ -47,7 +47,7 @@ class FolderController extends Controller
         }
 
         return redirect()->route('tasks.index', [
-            'id' => $first_folder->id,
+            'folder' => $first_folder->id,
         ]);
     }
 }
