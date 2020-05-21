@@ -31,6 +31,10 @@
                 <a href="{{ route('tasks.create', ['id' => $current_folder_id]) }}" class="btn btn-default btn-block">
                 タスクを追加する
                 </a>
+                <form method="post" action="/folders/{{ $current_folder_id }}/delete">
+                @csrf
+                    <input type="submit" value="このフォルダを削除する" class="btn btn-default btn-block" onclick='return confirm("削除してもよろしいですか？");'>
+                </form>
             </div>
           </div>
           <table class="table">
@@ -39,7 +43,8 @@
               <th>タイトル</th>
               <th>状態</th>
               <th>期限</th>
-              <th></th>
+              <th>編集</th>
+              <th>削除</th>
             </tr>
             </thead>
             <tbody>
@@ -50,10 +55,20 @@
                   <span class="label {{ $task->status_class }}">{{ $task->status_label }}</span>
                 </td>
                 <td>{{ $task->formatted_due_date }}</td>
-                <td>
-                    <a href="{{ route('tasks.edit', ['id' => $task->folder_id, 'task_id' => $task->id]) }}">
+                 <td>
+                    <!-- <a href="{{ route('tasks.edit', ['id' => $task->folder_id, 'task_id' => $task->id]) }}">
                     編集
-                    </a>
+                    </a>  -->
+                    <form method="get" action="/folders/{{ $task->folder_id }}/tasks/{{ $task->id }}/edit">
+                    @csrf
+                        <input type="submit" value="編集" class="btn btn-primary btn-xs">
+                    </form>
+                </td>
+                <td>
+                    <form method="post" action="/folders/{{ $task->folder_id }}/tasks/{{ $task->id }}/delete">
+                    @csrf
+                        <input type="submit" value="削除" class="btn btn-danger btn-xs" onclick='return confirm("削除してもよろしいですか？");'>
+                    </form>
                 </td>
               </tr>
             @endforeach

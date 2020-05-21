@@ -27,4 +27,27 @@ class FolderController extends Controller
             'id' => $folder->id,
         ]);
     }
+
+    public function delete(int $id)
+    {
+        $folder = Folder::find($id);
+ 
+        $folder_task = $folder->tasks()->get();
+        if(!empty($folder_task)){
+
+            $folder_task->each->delete();
+        }
+
+        $folder->delete();
+
+        // 選ばれたフォルダを取得する
+        $first_folder = Auth::user()->folders()->first();
+        if (is_null($first_folder )) {
+            return view('home');
+        }
+
+        return redirect()->route('tasks.index', [
+            'id' => $first_folder->id,
+        ]);
+    }
 }
