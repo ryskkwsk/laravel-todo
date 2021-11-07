@@ -98,13 +98,15 @@ DB_USERNAME=default # 変更
 DB_PASSWORD=secret
 
 $ php artisan migrate
+
+データベース名はdefault
 ```
 
 #### ・MySQL認証方式の確認
 ```
 # mysqlコンテナにログイン、MySQLにログインして認証方式を表示するSELECT文を実行
 $ docker-compose exec mysql bash
-$ mysql -uroot -p root
+$ mysql -u root -p (パスワードはroot)
 
 defaultユーザーのpluginが mysql_native_password となっていればok
 ```
@@ -201,3 +203,15 @@ $ docker-compose up -d --build nginx
 |期限日 |due_date | DATE |  |
 |作成日 | created_at | TIMESTAMP | 日付と時刻 |
 |更新日 | updated_at | TIMESTAMP | 日付と時刻 |
+
+### 環境セットアップ
+
+#### ローカルで起動する場合
+```
+・他でMySQlが起動していたらsequelProで入れない
+そのため、mysql.server stopで停止させる
+
+・他でapacheとか起動していたら、stopさせる
+sudo apachectl stop
+
+```
